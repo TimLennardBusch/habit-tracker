@@ -1,4 +1,12 @@
 export default function WeekOverview({ entries }) {
+  // Helper: format date as YYYY-MM-DD using LOCAL timezone
+  const formatLocalDate = (date) => {
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
+
   const getDaysOfWeek = () => {
     const days = []
     const today = new Date()
@@ -20,42 +28,34 @@ export default function WeekOverview({ entries }) {
   }
 
   const days = getDaysOfWeek()
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
+  
+  // Get today's date string using LOCAL timezone
+  const todayStr = formatLocalDate(new Date())
 
   const dayLabels = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
 
   const getEntryForDate = (date) => {
-    const dateStr = date.toISOString().split('T')[0]
+    const dateStr = formatLocalDate(date)
     return entries.find(e => e.date === dateStr)
   }
 
   const getDayStatus = (date, entry) => {
-    // Timezone fix: use local date string comparison
-    const dateStr = date.toISOString().split('T')[0]
-    const todayStr = new Date().toISOString().split('T')[0] // Careful: this is UTC, need local fix too?
+    const dateStr = formatLocalDate(date)
     
-    // Better date comparison using local time
-    const checkDate = new Date(dateStr)
-    checkDate.setHours(0,0,0,0)
-    
-    const todayDate = new Date()
-    todayDate.setHours(0,0,0,0)
-    
-    const isFuture = checkDate > todayDate
-    const isToday = checkDate.getTime() === todayDate.getTime()
+    // Compare dates using local date strings
+    const isToday = dateStr === todayStr
+    const isFuture = dateStr > todayStr
     
     if (isFuture) return 'future'
     if (isToday) {
       if (!entry) return 'today-empty'
-      // treat as pending if not explicitly boolean true/false
       if (typeof entry.evening_completed !== 'boolean') return 'today-pending'
       return entry.evening_completed ? 'today-completed' : 'today-failed'
     }
     
-    if (!entry) return 'empty'
-    // treat as pending if not explicitly boolean true/false
-    if (typeof entry.evening_completed !== 'boolean') return 'pending' 
+    // Past days
+    if (!entry) return 'empty' // No entry = gray (not red!)
+    if (typeof entry.evening_completed !== 'boolean') return 'pending'
     return entry.evening_completed ? 'completed' : 'failed'
   }
 
@@ -69,15 +69,17 @@ export default function WeekOverview({ entries }) {
         break
       case 'failed':
       case 'today-failed':
-      case 'empty':
         classes.push('day-cell--failed')
         break
       case 'today-pending':
       case 'today-empty':
-        classes.push('day-cell--today', 'day-cell--pending')
+        classes.push('day-cell--pending')
         break
       case 'pending':
         classes.push('day-cell--pending')
+        break
+      case 'empty':
+        // Empty days stay gray (default styling)
         break
       default:
         break
@@ -100,6 +102,7 @@ export default function WeekOverview({ entries }) {
         return '✗'
       case 'pending':
       case 'today-pending':
+        return '•'
       case 'today-empty':
         return '•'
       default:
@@ -117,7 +120,7 @@ export default function WeekOverview({ entries }) {
           
           return (
             <div 
-              key={date.toISOString()} 
+              key={formatLocalDate(date)} 
               className={getDayClasses(status)}
               title={entry?.morning_goal || ''}
             >
