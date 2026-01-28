@@ -1021,3 +1021,85 @@ body {
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+
+/* ==========================================
+   COMPACT COMPONENTS
+   ========================================== */
+
+/* Compact Streak Section */
+.streak-section--compact {
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.streak-compact-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.streak-number--compact {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.streak-compact-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.streak-label--compact {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.streak-message {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* Compact Goal Card */
+.goal-card--compact {
+  padding: var(--space-4);
+}
+
+.goal-card--compact .goal-card-header {
+  margin-bottom: var(--space-3);
+}
+
+.goal-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.goal-text--inline {
+  flex: 1;
+  font-size: var(--font-size-base);
+  padding: var(--space-3);
+  margin: 0;
+}
+
+/* Ghost Button (for edit icon) */
+.btn--ghost {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.btn--ghost:hover {
+  background: var(--gray-100);
+  color: var(--text-primary);
+}
+
+/* Compact Stats Grid (3 columns) */
+.stats-grid--compact {
+  grid-template-columns: repeat(3, 1fr);
+}

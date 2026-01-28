@@ -37,11 +37,11 @@ export default function Dashboard({
           <StreakBadge streak={streak} />
         </div>
 
-        {/* Streak Section */}
-        <StreakBadge streak={streak} size="large" />
+        {/* Compact Streak Section */}
+        <StreakBadge streak={streak} size="compact" />
 
         {/* Today's Goal */}
-        <div className="card goal-card animate-fade-in" style={{ animationDelay: '0.1s' }}>
+        <div className="card goal-card goal-card--compact animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <div className="goal-card-header">
             <h2 className="goal-card-title">Heutiges Ziel</h2>
             {hasMorningGoal && (
@@ -54,75 +54,39 @@ export default function Dashboard({
           </div>
           
           {hasMorningGoal ? (
-            <p className="goal-text">{todayEntry.morning_goal}</p>
+            <div className="goal-row">
+              <p className="goal-text goal-text--inline">{todayEntry.morning_goal}</p>
+              <button 
+                onClick={() => onNavigate('morning')}
+                className="btn btn--icon btn--ghost"
+                title="Ziel bearbeiten"
+              >
+                ✏️
+              </button>
+            </div>
           ) : (
-            <p className="goal-text goal-empty">
-              Noch kein Ziel für heute gesetzt
-            </p>
+            <button 
+              onClick={() => onNavigate('morning')}
+              className="btn btn--primary btn--full"
+            >
+              🌅 Morgenziel setzen
+            </button>
           )}
 
-          {/* Action Button */}
-          <div className="mt-4">
-            {!hasMorningGoal && (
-              <button 
-                onClick={() => onNavigate('morning')}
-                className="btn btn--primary btn--full"
-              >
-                🌅 Morgenziel setzen
-              </button>
-            )}
-            
-            {hasMorningGoal && !hasCompletedEvening && isEvening && (
-              <button 
-                onClick={() => onNavigate('evening')}
-                className="btn btn--success btn--full"
-              >
-                🌙 Abend-Check durchführen
-              </button>
-            )}
-
-            {hasMorningGoal && !isEvening && !hasCompletedEvening && (
-              <button 
-                onClick={() => onNavigate('morning')}
-                className="btn btn--secondary btn--full"
-              >
-                ✏️ Ziel bearbeiten
-              </button>
-            )}
-          </div>
+          {/* Evening Action - only show if goal exists and not completed */}
+          {hasMorningGoal && !hasCompletedEvening && isEvening && (
+            <button 
+              onClick={() => onNavigate('evening')}
+              className="btn btn--success btn--full mt-4"
+            >
+              🌙 Abend-Check durchführen
+            </button>
+          )}
         </div>
 
         {/* Week Overview */}
         <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
           <WeekOverview entries={weekEntries} />
-        </div>
-
-        {/* Quick Actions */}
-        <div className="card animate-fade-in" style={{ animationDelay: '0.3s' }}>
-          <h3 style={{ fontSize: 'var(--font-size-base)', fontWeight: 600, marginBottom: 'var(--space-4)' }}>
-            Schnellaktionen
-          </h3>
-          <div style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
-            <button 
-              onClick={() => onNavigate('morning')}
-              className="btn btn--secondary"
-            >
-              🌅 Ziel setzen
-            </button>
-            <button 
-              onClick={() => onNavigate('evening')}
-              className="btn btn--secondary"
-              disabled={!hasMorningGoal}
-            >
-              🌙 Abend-Check
-            </button>
-            <button 
-              onClick={() => onNavigate('analytics')}
-              className="btn btn--secondary"
-            >
-              📊 Statistiken
-            </button>
-          </div>
         </div>
       </div>
     </div>

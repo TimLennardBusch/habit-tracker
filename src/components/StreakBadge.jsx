@@ -17,6 +17,24 @@ export default function StreakBadge({ streak, size = 'normal' }) {
     return '🔥🔥🔥🔥'
   }
 
+  // Compact version - smaller, less padding
+  if (size === 'compact') {
+    return (
+      <div className="streak-section streak-section--compact card card--glass">
+        <div className="streak-compact-row">
+          <span className="streak-number streak-number--compact">{streak}</span>
+          <div className="streak-compact-info">
+            <span className="streak-label--compact">
+              {getFireEmojis(streak)} Tage in Folge
+            </span>
+            <span className="streak-message">{getStreakMessage(streak)}</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Large version - original full size
   if (size === 'large') {
     return (
       <div className="streak-section card card--glass card--glow">
@@ -31,6 +49,7 @@ export default function StreakBadge({ streak, size = 'normal' }) {
     )
   }
 
+  // Normal badge version
   return (
     <div className={`streak-badge ${size === 'normal' ? '' : 'streak-badge--large'}`}>
       <span className="fire-emoji">{streak > 0 ? '🔥' : '💫'}</span>

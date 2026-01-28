@@ -57,17 +57,10 @@ export default function AnalyticsChart({ entries }) {
     }).length
     const total = relevantDays.filter(d => {
       const entry = getEntryForDate(d)
-      return entry?.evening_completed !== null
+      return entry?.evening_completed !== null && entry?.evening_completed !== undefined
     }).length
     
     return total > 0 ? Math.round((completed / total) * 100) : null
-  })
-
-  // Daily completion (1 = success, 0 = fail, null = no data)
-  const dailyData = days.map(date => {
-    const entry = getEntryForDate(date)
-    if (!entry || entry.evening_completed === null) return null
-    return entry.evening_completed ? 100 : 0
   })
 
   const labels = days.map(date => {
@@ -137,9 +130,11 @@ export default function AnalyticsChart({ entries }) {
         min: 0,
         max: 100,
         grid: {
-          color: 'rgba(226, 232, 240, 0.5)'
+          color: 'rgba(226, 232, 240, 0.5)',
+          drawTicks: false
         },
         ticks: {
+          stepSize: 20, // Only show 0%, 20%, 40%, 60%, 80%, 100%
           callback: function(value) {
             return value + '%'
           },
@@ -153,7 +148,7 @@ export default function AnalyticsChart({ entries }) {
   }
 
   // Calculate stats
-  const totalDays = entries.filter(e => e.evening_completed !== null).length
+  const totalDays = entries.filter(e => e.evening_completed !== null && e.evening_completed !== undefined).length
   const completedDays = entries.filter(e => e.evening_completed === true).length
   const successRate = totalDays > 0 ? Math.round((completedDays / totalDays) * 100) : 0
 
@@ -172,11 +167,7 @@ export default function AnalyticsChart({ entries }) {
           </div>
         </div>
 
-        <div className="stats-grid animate-fade-in" style={{ animationDelay: '0.1s' }}>
-          <div className="stat-card">
-            <div className="stat-value">{completedDays}</div>
-            <div className="stat-label">Erfolgreiche Tage</div>
-          </div>
+        <div className="stats-grid stats-grid--compact animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <div className="stat-card">
             <div className="stat-value">{totalDays}</div>
             <div className="stat-label">Getrackte Tage</div>
