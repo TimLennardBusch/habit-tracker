@@ -25,7 +25,7 @@ export default function StreakBadge({ streak, size = 'normal' }) {
           <span className="streak-number streak-number--compact">{streak}</span>
           <div className="streak-compact-info">
             <span className="streak-label--compact">
-              {getFireEmojis(streak)} Tage in Folge
+              Tage in Folge {getFireEmojis(streak)} 
             </span>
             <span className="streak-message">{getStreakMessage(streak)}</span>
           </div>
@@ -40,7 +40,7 @@ export default function StreakBadge({ streak, size = 'normal' }) {
       <div className="streak-section card card--glass card--glow">
         <div className="streak-number animate-pulse">{streak}</div>
         <div className="streak-label">
-          {getFireEmojis(streak)} Tage in Folge
+          Tage in Folge {getFireEmojis(streak)}
         </div>
         <p className="mt-2" style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>
           {getStreakMessage(streak)}
