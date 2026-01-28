@@ -140,7 +140,7 @@ export default function Dashboard({
 
         {/* Week Overview */}
         <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-          <WeekOverview entries={weekEntries} />
+          <WeekOverview entries={weekEntries} currentStreak={streak} />
         </div>
 
         {/* Completion Popup */}

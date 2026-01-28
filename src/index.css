@@ -678,6 +678,21 @@ body {
   font-size: 11px;
 }
 
+.day-cell--milestone {
+  background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+  color: white;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+  z-index: 1;
+}
+
+.milestone-icon {
+  font-size: 14px;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+  animation: pulse 2s infinite;
+}
+
 /* ==========================================
    MORNING INPUT
    ========================================== */
