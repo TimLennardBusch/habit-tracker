@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard'
 import MorningInput from './components/MorningInput'
 import EveningCheck from './components/EveningCheck'
 import AnalyticsChart from './components/AnalyticsChart'
+import DetailsView from './components/DetailsView'
 import BottomNav from './components/BottomNav'
 
 // Demo user ID for simple password auth (replace with real auth if needed)
@@ -157,6 +158,8 @@ function App() {
         )
       case 'analytics':
         return <AnalyticsChart entries={allEntries} />
+      case 'details':
+        return <DetailsView entries={allEntries} />
       default:
         return (
           <Dashboard

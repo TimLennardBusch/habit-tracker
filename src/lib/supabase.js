@@ -132,34 +132,62 @@ export const dailyEntriesApi = {
       
       if (!history || history.length === 0) return 0
       
-      // Filter only completed entries
+      // Filter only completed entries and sort newest first
       const completedEntries = history
         .filter(e => e.evening_completed === true)
-        .sort((a, b) => new Date(b.date) - new Date(a.date)) // newest first
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
       
       if (completedEntries.length === 0) return 0
       
       let streak = 0
-      let currentDate = new Date()
-      currentDate.setHours(0, 0, 0, 0)
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
       
-      // Check if today is completed, if not start from yesterday
-      const today = formatDate(currentDate)
-      const todayCompleted = completedEntries.find(e => e.date === today)
+      // Get today's date string in YYYY-MM-DD format
+      const todayStr = formatDate(today)
       
-      if (!todayCompleted) {
-        currentDate.setDate(currentDate.getDate() - 1)
-      }
+      // Check if today is completed
+      const todayEntry = completedEntries.find(e => e.date === todayStr)
       
-      // Count consecutive days
-      for (const entry of completedEntries) {
-        const expectedDate = formatDate(currentDate)
+      if (todayEntry) {
+        // Today is completed, start counting from today
+        streak = 1
+        let checkDate = new Date(today)
+        checkDate.setDate(checkDate.getDate() - 1)
         
-        if (entry.date === expectedDate) {
-          streak++
-          currentDate.setDate(currentDate.getDate() - 1)
-        } else if (entry.date < expectedDate) {
-          break
+        // Count backwards from yesterday
+        while (true) {
+          const checkDateStr = formatDate(checkDate)
+          const found = completedEntries.find(e => e.date === checkDateStr)
+          if (found) {
+            streak++
+            checkDate.setDate(checkDate.getDate() - 1)
+          } else {
+            break
+          }
+        }
+      } else {
+        // Today not completed, check if yesterday was completed
+        const yesterday = new Date(today)
+        yesterday.setDate(yesterday.getDate() - 1)
+        const yesterdayStr = formatDate(yesterday)
+        const yesterdayEntry = completedEntries.find(e => e.date === yesterdayStr)
+        
+        if (yesterdayEntry) {
+          streak = 1
+          let checkDate = new Date(yesterday)
+          checkDate.setDate(checkDate.getDate() - 1)
+          
+          while (true) {
+            const checkDateStr = formatDate(checkDate)
+            const found = completedEntries.find(e => e.date === checkDateStr)
+            if (found) {
+              streak++
+              checkDate.setDate(checkDate.getDate() - 1)
+            } else {
+              break
+            }
+          }
         }
       }
       
