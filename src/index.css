@@ -596,10 +596,11 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--space-4);
+  padding-right: 2px; /* Slight adjustment to align edge with week view */
 }
 
 .goal-card-title {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-lg); /* Consistent with streak label */
   font-weight: 600;
 }
 
@@ -674,8 +675,9 @@ body {
 }
 
 .day-label {
-  font-weight: 600;
-  font-size: 11px;
+  font-weight: 700; /* Bold */
+  font-size: 10px;
+  margin-bottom: 2px;
 }
 
 .day-cell--milestone {
@@ -702,7 +704,9 @@ body {
   align-items: center;
   justify-content: space-between;
   background: var(--gray-100);
-  padding: var(--space-4);
+  /* Height matched to aspect-ratio square (approx 48-56px depending on width) or fixed height */
+  height: 56px; 
+  padding: 0 var(--space-4);
   border-radius: var(--radius-md);
   width: 100%;
   /* Gradient border left matching streak number */
@@ -716,30 +720,35 @@ body {
 .goal-text-content {
   flex: 1;
   font-size: var(--font-size-lg);
+  font-weight: 700; /* Bold */
   color: var(--text-primary);
   margin-right: var(--space-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .edit-btn {
-  font-size: 1.25rem !important; /* Smaller icon */
-  padding: var(--space-2) !important;
-  color: var(--text-secondary);
-  transform: scaleX(-1); /* Mirror horizontally */
-  opacity: 0.6;
+  font-size: 1.1rem !important; 
+  padding: 0 !important;
+  color: var(--text-muted); /* Subtler */
+  transform: scaleX(-1); 
+  opacity: 0.5;
   transition: all var(--transition-fast);
-  background: white !important;
-  width: 32px;
-  height: 32px;
-  display: flex;
+  background: transparent !important; /* No box */
+  width: auto;
+  height: auto;
+  min-width: unset;
+  border: none;
+  box-shadow: none;
+  display: flex !important;
   align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-sm);
 }
 
 .edit-btn:hover {
   opacity: 1;
-  background: white;
+  color: var(--primary-500);
+  background: transparent !important;
   transform: scaleX(-1) scale(1.1);
 }
 
