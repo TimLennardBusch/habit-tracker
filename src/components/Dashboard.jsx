@@ -17,10 +17,7 @@ export default function Dashboard({
   const [popupDate, setPopupDate] = useState(null)
 
   const hasMorningGoal = todayEntry?.morning_goal
-  // Only consider it completed if it is explicitly true or false (boolean), not null, undefined or empty string
   const hasCompletedEvening = typeof todayEntry?.evening_completed === 'boolean'
-  
-  // Check if yesterday has a goal but no completion status (null, undefined, or empty string)
   const hasYesterdayPending = yesterdayEntry?.morning_goal && typeof yesterdayEntry?.evening_completed !== 'boolean'
 
   const openCompletionPopup = (goal, date = null) => {
@@ -30,14 +27,35 @@ export default function Dashboard({
   }
 
   const handlePopupComplete = (completed) => {
-    onComplete(completed, null, popupDate) // Pass date if it's yesterday
+    onComplete(completed, null, popupDate)
     setShowCompletionPopup(false)
+  }
+
+  // Render status icon button
+  const StatusBadge = ({ completed, isPending, onClick }) => {
+    if (isPending) {
+      return (
+        <button 
+          onClick={onClick}
+          className="status-icon status-icon--pending"
+          title="Ziel bestätigen"
+        >
+          ⏳
+        </button>
+      )
+    }
+    
+    if (completed) {
+      return <span className="status-icon status-icon--success">✓</span>
+    }
+    
+    return <span className="status-icon status-icon--failed">✗</span>
   }
 
   return (
     <div className="dashboard page-with-nav">
       <div className="container container--narrow">
-        {/* Header - simplified, no duplicate badge */}
+        {/* Header */}
         <div className="dashboard-header animate-fade-in">
           <div>
             <h1 className="greeting">Moin, Tim!</h1>
@@ -49,16 +67,13 @@ export default function Dashboard({
 
         {/* CATCH-UP BOX: Yesterday's Goal */}
         {hasYesterdayPending && (
-          <div className="card goal-card goal-card--compact animate-fade-in mb-4" style={{ borderLeft: '4px solid var(--warning-500)' }}>
+          <div className="card goal-card goal-card--compact goal-card--warning animate-fade-in mb-4">
             <div className="goal-card-header">
-              <h2 className="goal-card-title" style={{ color: 'var(--warning-600)' }}>Gestriges Ziel offen</h2>
-              <button 
+              <h2 className="goal-card-title goal-card-title--warning">Gestriges Ziel</h2>
+              <StatusBadge 
+                isPending={true} 
                 onClick={() => openCompletionPopup(yesterdayEntry.morning_goal, yesterdayEntry.date)}
-                className="status status--pending cursor-pointer"
-                title="Jetzt nachholen"
-              >
-                <span>⏳ Offen</span>
-              </button>
+              />
             </div>
             
             <div className="goal-row">
@@ -72,20 +87,11 @@ export default function Dashboard({
           <div className="goal-card-header">
             <h2 className="goal-card-title">Heutiges Ziel</h2>
             {hasMorningGoal && (
-              <>
-                {hasCompletedEvening ? (
-                  <span className={`status ${todayEntry.evening_completed ? 'status--success' : 'status--failed'}`}>
-                    {todayEntry.evening_completed ? '✓ Geschafft' : '✗ Nicht geschafft'}
-                  </span>
-                ) : (
-                  <button 
-                    onClick={() => openCompletionPopup(todayEntry.morning_goal)}
-                    className="status status--pending cursor-pointer"
-                  >
-                    <span>⏳ Offen</span>
-                  </button>
-                )}
-              </>
+              <StatusBadge 
+                completed={todayEntry.evening_completed}
+                isPending={!hasCompletedEvening}
+                onClick={() => openCompletionPopup(todayEntry.morning_goal)}
+              />
             )}
           </div>
           
@@ -106,16 +112,6 @@ export default function Dashboard({
               className="btn btn--primary btn--full"
             >
               🌅 Morgenziel setzen
-            </button>
-          )}
-
-          {/* Evening Action - only show if goal exists and not completed AND it's evening */}
-          {hasMorningGoal && !hasCompletedEvening && isEvening && (
-            <button 
-              onClick={() => openCompletionPopup(todayEntry.morning_goal)}
-              className="btn btn--success btn--full mt-4"
-            >
-              🌙 Abend-Check durchführen
             </button>
           )}
         </div>

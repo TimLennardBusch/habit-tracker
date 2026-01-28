@@ -1213,3 +1213,165 @@ body {
   stroke: var(--primary-600);
   stroke-width: 2;
 }
+
+/* ==========================================
+   POPUP MODAL
+   ========================================== */
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.popup-modal {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  width: 100%;
+  max-width: 340px;
+  text-align: center;
+  box-shadow: var(--shadow-xl);
+  animation: slideUp 0.3s ease;
+}
+
+.popup-icon {
+  font-size: 3rem;
+  margin-bottom: var(--space-3);
+}
+
+.popup-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.popup-goal {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+  padding: var(--space-3);
+  background: var(--gray-100);
+  border-radius: var(--radius-md);
+}
+
+.popup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.popup-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.popup-btn--success {
+  background: var(--success-500);
+  color: white;
+}
+
+.popup-btn--success:hover {
+  background: var(--success-600);
+  transform: scale(1.02);
+}
+
+.popup-btn--danger {
+  background: var(--error-500);
+  color: white;
+}
+
+.popup-btn--danger:hover {
+  background: #dc2626;
+  transform: scale(1.02);
+}
+
+.popup-btn-icon {
+  font-size: 1.25rem;
+}
+
+.popup-close {
+  margin-top: var(--space-4);
+  padding: var(--space-2);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.popup-close:hover {
+  color: var(--text-secondary);
+}
+
+/* ==========================================
+   STATUS ICONS
+   ========================================== */
+
+.status-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: default;
+}
+
+button.status-icon {
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+button.status-icon:hover {
+  transform: scale(1.1);
+}
+
+.status-icon--pending {
+  background: var(--warning-100);
+  color: var(--warning-600);
+}
+
+.status-icon--success {
+  background: var(--success-100);
+  color: var(--success-600);
+}
+
+.status-icon--failed {
+  background: var(--error-50);
+  color: var(--error-500);
+}
+
+/* Goal Card Warning Style */
+.goal-card--warning {
+  border-left: 4px solid var(--warning-500);
+}
+
+.goal-card-title--warning {
+  color: var(--warning-600);
+}

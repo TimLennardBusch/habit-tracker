@@ -11,7 +11,6 @@ export default function CompletionPopup({ goal, isOpen, onClose, onComplete }) {
     
     if (isOpen) {
       document.addEventListener('keydown', handleEscape)
-      // Prevent body scroll when modal is open
       document.body.style.overflow = 'hidden'
     }
     
@@ -22,19 +21,17 @@ export default function CompletionPopup({ goal, isOpen, onClose, onComplete }) {
   }, [isOpen, onClose])
 
   const handleCreateConfetti = () => {
-    // Left side burst
     confetti({
       particleCount: 100,
       spread: 70,
-      origin: { x: 0.1, y: 0.8 },
+      origin: { x: 0.1, y: 0.6 },
       colors: ['#6366f1', '#10b981', '#fbbf24']
     })
     
-    // Right side burst
     confetti({
       particleCount: 100,
       spread: 70,
-      origin: { x: 0.9, y: 0.8 },
+      origin: { x: 0.9, y: 0.6 },
       colors: ['#6366f1', '#10b981', '#fbbf24']
     })
   }
@@ -42,41 +39,38 @@ export default function CompletionPopup({ goal, isOpen, onClose, onComplete }) {
   if (!isOpen) return null
 
   return (
-    <div className="modal-overlay animate-fade-in" onClick={onClose}>
+    <div className="popup-overlay" onClick={onClose}>
       <div 
-        className="modal-content animate-slide-up" 
+        className="popup-modal" 
         onClick={e => e.stopPropagation()}
         ref={modalRef}
       >
-        <div className="modal-header">
-          <div className="modal-icon">🎯</div>
-          <h2 className="modal-title">Hast du dein Ziel erreicht?</h2>
-        </div>
+        <div className="popup-icon">🎯</div>
+        <h2 className="popup-title">Ziel erreicht?</h2>
+        <p className="popup-goal">{goal}</p>
 
-        <div className="modal-goal-display">
-          {goal}
-        </div>
-
-        <div className="modal-actions">
+        <div className="popup-actions">
           <button
             onClick={() => {
               handleCreateConfetti()
               onComplete(true)
             }}
-            className="btn btn--success btn--large btn--full"
+            className="popup-btn popup-btn--success"
           >
-            ✓ Geschafft!
+            <span className="popup-btn-icon">✓</span>
+            Geschafft
           </button>
           
           <button
             onClick={() => onComplete(false)}
-            className="btn btn--secondary btn--large btn--full"
+            className="popup-btn popup-btn--danger"
           >
-            ✗ Leider nicht
+            <span className="popup-btn-icon">✗</span>
+            Leider nicht
           </button>
         </div>
 
-        <button onClick={onClose} className="modal-close-btn">
+        <button onClick={onClose} className="popup-close">
           Abbrechen
         </button>
       </div>
