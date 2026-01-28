@@ -8,33 +8,17 @@ export default function Dashboard({
   onNavigate,
   isEvening 
 }) {
-  const getGreeting = () => {
-    const hour = new Date().getHours()
-    if (hour < 12) return 'Guten Morgen'
-    if (hour < 18) return 'Guten Tag'
-    return 'Guten Abend'
-  }
-
-  const getTimeOfDay = () => {
-    const hour = new Date().getHours()
-    if (hour < 12) return '🌅 Morgen'
-    if (hour < 18) return '☀️ Nachmittag'
-    return '🌙 Abend'
-  }
-
   const hasMorningGoal = todayEntry?.morning_goal
   const hasCompletedEvening = todayEntry?.evening_completed !== null && todayEntry?.evening_completed !== undefined
 
   return (
     <div className="dashboard page-with-nav">
-      <div className="container">
-        {/* Header */}
+      <div className="container container--narrow">
+        {/* Header - simplified, no duplicate badge */}
         <div className="dashboard-header animate-fade-in">
           <div>
-            <h1 className="greeting">{getGreeting()}!</h1>
-            <span className="greeting-time">{getTimeOfDay()}</span>
+            <h1 className="greeting">Moin, Tim!</h1>
           </div>
-          <StreakBadge streak={streak} />
         </div>
 
         {/* Compact Streak Section */}
